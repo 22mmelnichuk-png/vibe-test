@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Stylized MChS firefighter (yellow coat) top-down -->
+  <rect x="14" y="18" width="36" height="26" rx="6" fill="#f2c94c" stroke="#b88f2a" stroke-width="1"/>
+  <ellipse cx="32" cy="12" rx="12" ry="7" fill="#ffd27f" stroke="#b88f2a"/>
+  <!-- extinguisher on back -->
+  <rect x="40" y="28" width="6" height="14" rx="2" fill="#bf4949"/>
+  <!-- boots -->
+  <rect x="22" y="40" width="8" height="6" rx="2" fill="#4c3b2f"/>
+  <rect x="34" y="40" width="8" height="6" rx="2" fill="#4c3b2f"/>
+</svg>

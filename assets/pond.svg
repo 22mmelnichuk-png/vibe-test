@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <defs>
+    <radialGradient id="pg" cx="40%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#aee6ff"/>
+      <stop offset="100%" stop-color="#2f9fff"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="32" cy="32" rx="28" ry="18" fill="url(#pg)" stroke="#1e8bd6" stroke-width="1"/>
+</svg>

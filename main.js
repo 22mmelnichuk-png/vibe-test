@@ -2,6 +2,16 @@ const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
 
+// Load SVG sprite images (fallback to original drawing if not available)
+const sprites = {};
+const spriteNames = ['player','mch','monster','fire','tree','pond'];
+for (let name of spriteNames) {
+  const img = new Image();
+  img.src = `assets/${name}.svg`;
+  img.onload = () => { sprites[name] = img; };
+  img.onerror = () => { sprites[name] = null; };
+}
+
 // Game state
 let keys = {};
 let mouse = {x: W/2, y: H/2, down:false};
@@ -28,10 +38,15 @@ class Player{
     this.y = Math.max(20, Math.min(H-20, this.y));
   }
   draw(){
-    // body
+    if (sprites.player) {
+      const img = sprites.player;
+      const scale = (this.r*2.6) / img.width;
+      ctx.drawImage(img, this.x - img.width*scale/2, this.y - img.height*scale/2, img.width*scale, img.height*scale);
+      return;
+    }
+    // fallback: simple circles
     ctx.fillStyle = this.color;
     ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill();
-    // helmet
     ctx.fillStyle = '#ff6666'; ctx.beginPath(); ctx.arc(this.x, this.y-6, this.r-6, 0, Math.PI*2); ctx.fill();
   }
 }
@@ -45,8 +60,13 @@ class Fire{
   }
   draw(){
     if(this.intensity<=0) return;
+    if (sprites.fire) {
+      const img = sprites.fire;
+      const scale = (this.r*2.4) / img.width;
+      ctx.drawImage(img, this.x - img.width*scale/2, this.y - img.height*scale/2, img.width*scale, img.height*scale);
+      return;
+    }
     const t = this.intensity/100;
-    const glow = Math.floor(160 + 95*t);
     ctx.fillStyle = `rgba(255,${80 + Math.floor(120*t)},0,${0.9})`;
     ctx.beginPath(); ctx.arc(this.x,this.y,this.r*(0.6+0.8*(1-t)),0,Math.PI*2); ctx.fill();
     // core
@@ -71,8 +91,12 @@ class MChS{
     if(best < 24 && this.cooldown <= 0){ nearest.intensity = Math.max(0, nearest.intensity - 32); this.cooldown = 600; }
     this.cooldown -= dt;
   }
-  draw(){ ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill(); }
+  draw(){
+    if (sprites.mch) { const img = sprites.mch; const scale = (this.r*2.4)/img.width; ctx.drawImage(img, this.x-img.width*scale/2, this.y-img.height*scale/2, img.width*scale, img.height*scale); return; }
+    ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill();
+  }
 }
+
 
 class FireMonster{
   constructor(){ this.x = 200; this.y = 200; this.r=14; this.color='#9b59b6'; this.timer=0; }
@@ -85,7 +109,10 @@ class FireMonster{
     // sometimes spawn new fire
     if(Math.random() < 0.002){ spawnFire(this.x + (Math.random()-0.5)*80, this.y + (Math.random()-0.5)*80); }
   }
-  draw(){ ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill(); }
+  draw(){
+    if (sprites.monster) { const img = sprites.monster; const scale = (this.r*2.4)/img.width; ctx.drawImage(img, this.x-img.width*scale/2, this.y-img.height*scale/2, img.width*scale, img.height*scale); return; }
+    ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill();
+  }
 }
 
 // helpers
@@ -172,11 +199,19 @@ function spawnSteam(x,y){ steams.push({x,y,life:600 + Math.random()*400, r:6 + M
 function draw(){
   // background
   ctx.clearRect(0,0,W,H);
-  // trees (just dots)
-  for(let i=0;i<120;i++){ const tx = (i*47) % (W-80) + 40; const ty = (i*83) % (H-80) + 40; ctx.fillStyle = '#144a14'; ctx.fillRect(tx,ty,2,2); }
+  // trees (place sprites when available)
+  for(let i=0;i<120;i++){
+    const tx = (i*47) % (W-80) + 40; const ty = (i*83) % (H-80) + 40;
+    if (sprites.tree) {
+      const img = sprites.tree; const s = 14/img.width; ctx.drawImage(img, tx - img.width*s/2, ty - img.height*s/2, img.width*s, img.height*s);
+    } else { ctx.fillStyle = '#144a14'; ctx.fillRect(tx,ty,2,2); }
+  }
 
-  // ponds
-  for(let p of ponds){ ctx.fillStyle='#2f9fff'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
+  // ponds (use sprite if available)
+  for(let p of ponds){
+    if (sprites.pond) { const img = sprites.pond; const s = (p.r*2.2)/img.width; ctx.drawImage(img, p.x - img.width*s/2, p.y - img.height*s/2, img.width*s, img.height*s); }
+    else { ctx.fillStyle='#2f9fff'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
+  }
 
   // fires
   for(let f of fires) f.draw();

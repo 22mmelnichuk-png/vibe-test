@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Stylized red firefighter, top-down with helmet and jacket details -->
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <!-- jacket -->
+    <rect x="16" y="20" width="32" height="24" rx="6" fill="#b22222" stroke="#6b0000" stroke-width="1"/>
+    <!-- reflective stripe -->
+    <rect x="18" y="30" width="28" height="6" rx="2" fill="#ffd966" opacity="0.95"/>
+    <!-- helmet -->
+    <ellipse cx="32" cy="14" rx="12" ry="8" fill="#ff8b8b" stroke="#c66" stroke-width="1"/>
+    <rect x="24" y="10" width="16" height="6" rx="2" fill="#ff4d4d"/>
+    <!-- backpack / hose connector -->
+    <rect x="26" y="36" width="12" height="10" rx="2" fill="#7a2d2d"/>
+    <!-- legs (top-down feet) -->
+    <rect x="22" y="40" width="8" height="6" rx="2" fill="#4d0000"/>
+    <rect x="34" y="40" width="8" height="6" rx="2" fill="#4d0000"/>
+  </g>
+</svg>

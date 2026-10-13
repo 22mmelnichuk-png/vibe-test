@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Fire monster: purple, spiky, with ember glow -->
+  <defs>
+    <radialGradient id="g1" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffbb33"/>
+      <stop offset="50%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#8e44ad"/>
+    </radialGradient>
+  </defs>
+  <g>
+    <path d="M32 12 C22 12 18 20 18 28 C18 38 24 46 32 46 C40 46 46 38 46 28 C46 20 42 12 32 12 Z" fill="url(#g1)" stroke="#642061" stroke-width="1"/>
+    <!-- spikes -->
+    <path d="M18 26 L12 20 L18 22" fill="#8e44ad"/>
+    <path d="M46 26 L52 20 L46 22" fill="#8e44ad"/>
+    <circle cx="25" cy="28" r="3" fill="#3b0d0d"/>
+    <circle cx="39" cy="28" r="3" fill="#3b0d0d"/>
+  </g>
+</svg>
